@@ -33,8 +33,7 @@ fun minInLst (ls: int list) : int =
 fun min_max (ls: int list) : int*int =
 	if length ls = 1 then (hd ls, hd ls)
 	else (minInLst ls, maxInLst ls)
-
-   
+  
 (* 3. a function that takes a list of numbers and returns a list of the partial sums of those numbers.*)
 
 (* helper function : computes the sum of a list of integers *)
