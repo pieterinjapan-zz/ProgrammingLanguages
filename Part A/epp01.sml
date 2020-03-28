@@ -130,5 +130,5 @@ fun addAllOpt (x_opt_s : int option list) : int option =
                  else if isSome x_opt then x_opt
                  else if isSome y_opt then y_opt
                  else NONE
-	  in addOpt' (hd x_opt_s) (addAllOpt (tl x_opt_s)) 
-	  end
+	 in addOpt' (hd x_opt_s) (addAllOpt (tl x_opt_s)) 
+	 end
