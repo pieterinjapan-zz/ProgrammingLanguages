@@ -1,5 +1,4 @@
 # pieterinjapan
-Programming Languages
 My solutions to the extra practice problems for the “Programming Languages” course offered by coursera.
 
 Part A: https://www.coursera.org/learn/programming-languages 
