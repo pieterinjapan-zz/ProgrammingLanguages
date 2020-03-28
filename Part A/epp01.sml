@@ -102,3 +102,33 @@ fun repeat (ps : (int list)*(int list)) : int list =
 	   else append (repeatInt (hd ys) (hd xs)) (repeat (tl xs,tl ys))
 	end   
 
+(* Problem 6. 
+ * a function that given two "optional" integers, adds them if they are both 
+ * present (returning SOME of their sum), or returns NONE if at least one of 
+ * the two arguments is NONE.
+ *)		
+ 
+fun addOpt (x_opt : int option) (y_opt : int option) : int option =
+    if (isSome x_opt) andalso (isSome y_opt) 
+	then let val x = valOf x_opt 
+	         val y = valOf y_opt 
+		 in SOME (x + y)
+		 end
+	else NONE	 
+	
+ (* Problem 7. 
+ * a function that given a list of "optional" integers, adds those integers that 
+ * are there (i.e. adds all the SOME i). If the list does not contain any SOME i 
+ * in it, the function should return NONE.
+ *)	
+ 
+fun addAllOpt (x_opt_s : int option list) : int option =
+	if null x_opt_s then NONE 
+	else let fun addOpt' (x_opt : int option) (y_opt : int option) : int option =
+                 if (isSome x_opt) andalso (isSome y_opt) 
+                 then SOME (valOf x_opt + valOf y_opt)
+                 else if isSome x_opt then x_opt
+                 else if isSome y_opt then y_opt
+                 else NONE
+	     in addOpt' (hd x_opt_s) (addAllOpt (tl x_opt_s)) 
+	     end
