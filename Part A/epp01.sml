@@ -132,3 +132,118 @@ fun addAllOpt (x_opt_s : int option list) : int option =
                  else NONE
 	 in addOpt' (hd x_opt_s) (addAllOpt (tl x_opt_s)) 
 	 end
+
+(* Problem 8. 
+ * a function that given a list of booleans returns true if there is at least one of 
+ * them that is true, otherwise returns false. (If the list is empty it should return false) 
+ *)	
+ 
+fun any (bs : bool list) : bool =
+    if null bs then false
+    else if (hd bs) then true
+    else any (tl bs) 
+	
+(* Problem 9. 
+ * a function that given a list of booleans returns true if all of them are  
+ * true, otherwise returns false. (If the list is empty it should return true) 
+ *)		
+ 
+ fun all (bs : bool list) : bool =
+     if null bs then true
+     else if (hd bs = false) then false
+     else all (tl bs) 	
+ 
+(* Problem 10. 
+ * a function that given two lists of integers creates consecutive pairs, 
+ * and stops when one of the lists is empty.
+ *)	
+ 
+fun zip (xs : 'a list) (ys : 'b list) : ('a*'b) list =
+    if null xs then []
+    else if null ys then []
+    else (hd xs, hd ys) :: (zip (tl xs) (tl ys))	
+
+(* Problem 11. 
+ * Write a version zipRecycle of zip, where when one list is empty it starts 
+ * recycling from its start until the other list completes. 
+ *)
+ 
+(* helper function : zip with recicle assuming the right list is smaller *)
+fun zipRecycleR (xs : 'a list) (ys : 'b list) : ('a*'b) list =
+    let fun zipRecycleR' (r_lst : 'a list ) (xs : 'a list) (ys : 'b list) : ('a*'b) list =
+            if null ys then []
+            else let val xs' = if null xs then r_lst 
+	                       else xs
+                 in (hd xs', hd ys) :: ( zipRecycleR' r_lst (tl xs') (tl ys) )	
+		 end
+    in zipRecycleR' xs xs ys
+    end
+
+(* helper function : zip with recicle assuming the left list is smaller *)
+fun zipRecycleL (xs : 'a list) (ys : 'b list) : ('a*'b) list =
+    let fun zipRecycleL' (l_lst : 'b list ) (xs : 'a list) (ys : 'b list) : ('a*'b) list =
+            if null xs then []
+            else let val ys' = if null ys then l_lst 
+	                       else ys
+                 in (hd xs, hd ys') :: ( zipRecycleL' l_lst (tl xs) (tl ys') )	
+		 end
+    in zipRecycleL' ys xs ys
+    end
+
+(* main function *)
+fun zipRecycle (xs : 'a list) (ys : 'b list) : ('a*'b) list =
+    if length xs <= length ys 
+    then zipRecycleR xs ys
+    else zipRecycleL xs ys	
+
+
+(* Problem 12. 
+ * Write a version zipOpt of zip. This version should return SOME of a list 
+ * when the original lists have the same length, and NONE if they do not. 
+ *)
+ 
+fun zipOpt (xs : 'a list) (ys : 'b list) : ('a*'b) list option =
+    if length xs <> length ys 
+    then NONE
+    else let val zip_ls = zip xs ys
+         in SOME zip_ls 
+         end 
+
+(* Problem 13. 
+ * a function that takes a list of pairs (s,i) and also a string s2 to look up. 
+ * It then goes through the list of pairs looking for the string s2 in the first 
+ * component. If it finds a match with corresponding number i, then it returns SOME i.
+ * If it does not, it returns NONE.
+ *)
+ 
+ fun lookup (p_ls : (string*int) list) (st : string) : int option = 
+     if null p_ls then NONE 
+     else let val p = hd p_ls
+	      val st1 = #1 p
+              val idx = #2 p			  
+	  in if st = st1 then SOME idx
+	     else lookup (tl p_ls) st
+          end
+ 
+(* Problem 14. 
+ * a function that, given a list of integers creates two lists of integers, one containing 
+ * the non-negative entries, the other containing the negative entries. Relative order must 
+ * be preserved: All non-negative entries must appear in the same order in which they were 
+ * on the original list, and similarly for the negative entries.
+ *) 
+
+fun splitup (xs : int list) : int list * int list = 
+    let fun splitup' (xs : int list) (pos_ls : int list) (neg_ls : int list) : int list * int list =
+            if null xs then (pos_ls,neg_ls)
+	    else let val h_xs = hd xs
+                     val t_xs = tl xs	
+	         in if h_xs >= 0
+	            then let val pos_ls' = append pos_ls [h_xs]
+	                 in splitup' t_xs pos_ls' neg_ls
+		         end
+	            else let val neg_ls' = append neg_ls [h_xs]
+                         in splitup' t_xs pos_ls neg_ls'	
+		         end 
+		 end	
+    in splitup' xs [] [] 
+    end
