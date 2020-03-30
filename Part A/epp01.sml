@@ -247,3 +247,88 @@ fun splitup (xs : int list) : int list * int list =
 		 end	
     in splitup' xs [] [] 
     end
+
+(* Problem 15.
+ * Write a version of the previous function that takes an extra "threshold" parameter, and uses that 
+ * instead of 0 as the separating point for the two resulting lists.
+ *)
+
+fun splitAt (xs : int list) (n : int) : int list * int list = 
+    let fun splitAt' (xs : int list) (pos_ls : int list) (neg_ls : int list) : int list * int list =
+            if null xs then (pos_ls,neg_ls)
+	    else let val h_xs = hd xs
+                     val t_xs = tl xs	
+	             in if h_xs >= n
+	                then let val pos_ls' = append pos_ls [h_xs]
+	                     in splitAt' t_xs pos_ls' neg_ls
+		             end
+	                else let val neg_ls' = append neg_ls [h_xs]
+                             in splitAt' t_xs pos_ls neg_ls'	
+		             end 
+		     end	
+    in splitAt' xs [] [] 
+    end
+
+(* Problem 16.
+ * a function that, that given a list of integers determines whether 
+ * the list is sorted in increasing order.
+ *)
+
+fun isSorted (xs : int list) : bool =
+    if null xs then true 
+    else let val t_xs = tl xs 
+             val h_xs = hd xs	
+	 in if null t_xs then true 
+            else (h_xs <= (hd t_xs)) andalso (isSorted t_xs) 
+         end	
+
+(* Problem 17.
+ * a function that, given a list of integers, determines whether the 
+ * list is sorted in either increasing or decreasing order. 
+ *)
+
+fun isAnySorted (xs : int list) : bool =
+    if null xs then true
+    else let val t_xs = tl xs
+             fun isSorted' (p : int -> int -> bool) (ys : int list) : bool =
+	         if null ys then true 
+	         else let val t_ys = tl ys 
+                          val h_ys = hd ys	
+	              in if null t_ys then true 
+                         else (p h_ys (hd t_ys)) andalso (isSorted' p t_ys) 
+                      end	
+	 in if null t_xs then true
+	       else if (hd xs) <= (hd t_xs) 
+	       then isSorted' (fn x => fn y => x <= y) xs
+	       else isSorted' (fn x => fn y => x >  y) xs
+         end
+
+(* Problem 18.
+ * a function that, that takes two lists of integers that are each sorted from 
+ * smallest to largest, and merges them into one sorted list. 
+ *)
+
+fun sortedMerge (l_ls : int list) (r_ls : int list) : int list =
+    if null l_ls then r_ls
+    else if null r_ls then l_ls
+    else let val h_r = hd r_ls
+             val h_l = hd l_ls	 
+         in if h_l <= h_r 
+	    then h_l::(sortedMerge (tl l_ls) r_ls)
+	    else h_r::(sortedMerge l_ls (tl r_ls))
+	 end
+
+(* Problem 19.
+ * Write a sorting function that works as follows: Takes the first element out, and uses it as the 
+ * "threshold" for splitAt. It then recursively sorts the two lists produced by splitAt. Finally 
+ * it brings the two lists together. (Don't forget that element you took out, it needs to get back in at some point). 
+ *)
+
+fun qsort (xs : int list) : int list = 
+    if isSorted xs then xs
+    else let val h_xs = hd xs
+	     val p_ls = splitAt (tl xs) h_xs
+             val small_ls = #2 p_ls	
+	     val large_ls = #1 p_ls
+	 in append (qsort small_ls) (h_xs::(qsort large_ls))
+         end
