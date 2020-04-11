@@ -1,6 +1,6 @@
 (* Author  : Pieter van Wyk
  * Created : 2020-03-27
- * Updated : 2020-03-29
+ * Updated : 2020-04-11
  *
  * Solutions to the extra practice problems of week 2 of part A 
  *)
@@ -331,4 +331,34 @@ fun qsort (xs : int list) : int list =
              val small_ls = #2 p_ls	
 	     val large_ls = #1 p_ls
 	 in append (qsort small_ls) (h_xs::(qsort large_ls))
+         end
+	 
+(* Problem 20.
+ * Write a function that takes a list of integers and produces two 
+ * lists by alternating elements between the two lists.  
+ *)	
+ 
+fun divide (ls: int list) : int list * int list =
+    if null ls then ([],[])
+       else let val h_ls = hd ls 
+	        val t_ls = tl ls
+            in if null t_ls then ([h_ls],[])
+	       else let fun cons_pair ((x,y) : int * int) ((xs,ys) : int list * int list) : int list * int list =
+                            (x::xs, y::ys)
+	            in cons_pair (h_ls,hd t_ls) (divide (tl t_ls))
+		    end
+            end		 
+
+(* Problem 21.
+ * Write another sorting function that works as follows: Given the initial list of integers, 
+ * splits it in two lists using divide, then recursively sorts those two lists, then merges 
+ * them together with sortedMerge.
+*)
+
+fun not_so_quick_sort (ls: int list) : int list =
+    if length ls <= 1 then ls
+    else let val div_ls = divide ls
+	     val fst_ls = not_so_quick_sort (#1 div_ls) 
+	     val snd_ls = not_so_quick_sort (#2 div_ls)
+	 in sortedMerge fst_ls snd_ls
          end
