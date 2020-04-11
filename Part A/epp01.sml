@@ -340,14 +340,14 @@ fun qsort (xs : int list) : int list =
  
 fun divide (ls: int list) : int list * int list =
     if null ls then ([],[])
-       else let val h_ls = hd ls 
-	        val t_ls = tl ls
-            in if null t_ls then ([h_ls],[])
-	       else let fun cons_pair ((x,y) : int * int) ((xs,ys) : int list * int list) : int list * int list =
-                            (x::xs, y::ys)
-	            in cons_pair (h_ls,hd t_ls) (divide (tl t_ls))
-		    end
-            end		 
+    else let val h_ls = hd ls 
+             val t_ls = tl ls
+         in if null t_ls then ([h_ls],[])
+	    else let fun cons_pair ((x,y) : int * int) ((xs,ys) : int list * int list) : int list * int list =
+                         (x::xs, y::ys)
+	         in cons_pair (h_ls,hd t_ls) (divide (tl t_ls))
+		 end
+         end		 
 
 (* Problem 21.
  * Write another sorting function that works as follows: Given the initial list of integers, 
