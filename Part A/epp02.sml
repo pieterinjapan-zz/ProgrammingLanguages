@@ -18,8 +18,8 @@ datatype pass_fail = pass | fail
  * returns pass if the grade field contains SOME i for an i≥75 (else fail).
  *)
  
-fun pass_or_fail {grade : int option, id : 'a} : pass_fail =
-    case grade 
+fun pass_or_fail (fgrd : final_grade) : pass_fail =
+    case (#grade fgrd) 
     of NONE  => fail
     | SOME i => case (i >= 75) 
 	        of true  => pass
@@ -31,7 +31,7 @@ fun pass_or_fail {grade : int option, id : 'a} : pass_fail =
  * grade field contains SOME i for an i≥75.
  *)
  
- fun has_passed (x_rec : {grade : int option, id : 'a}) : bool =
-     case (pass_or_fail x_rec)
+ fun has_passed (fgrd : final_grade) : bool =
+     case (pass_or_fail fgrd)
      of pass => true
      |  fail => false
