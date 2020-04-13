@@ -1,6 +1,6 @@
 (* Author  : Pieter van Wyk
  * Created : 2020-03-27
- * Updated : 2020-04-11
+ * Updated : 2020-04-13
  *
  * Solutions to the extra practice problems of week 2 of part A 
  *)
@@ -362,3 +362,112 @@ fun not_so_quick_sort (ls: int list) : int list =
 	     val snd_ls = not_so_quick_sort (#2 div_ls)
 	 in sortedMerge fst_ls snd_ls
          end
+
+(* Problem 22.
+ * Write a function that given two numbers k and n it attempts to evenly divide k into 
+ * n as many times as possible, and returns a pair (d,n2) where is the number of times 
+ * while n2 is the resulting n after all those divisions.
+ *)		 
+ 
+(* helper : for testing fullDivide *)
+fun pow (n : int, k : int) : int =
+    if k = 0 then 1
+    else n * pow(n, k - 1) 
+
+fun unDivide (k : int) (d : int, n : int) : int =
+    pow(k,d)*n     
+
+fun fullDivide (k : int, n : int) : int * int =
+    let fun fullDivide' (d : int) (k : int) (n : int) : int * int =
+            if n mod k = 0
+	    then fullDivide' (d + 1) k (n div k)
+	    else (d, n)
+    in fullDivide' 0 k n
+    end
+ 
+(* Problem 23.
+ * write a function that given a number n returns a list of pairs (d,k) 
+ * where d is a prime number dividing n and k is the number of times it fits. 
+ * The pairs should be in increasing order of prime factor, and the process 
+ * should stop when the divisor considered surpasses the square root of n.
+ *)	
+  
+fun factorize (n : int) : (int * int) list =
+    if n < 2 then []
+    else let fun factorize' (k : int) (m : int) : (int * int) list =
+                 case (m = 1) 
+	         of true  => []
+	         |  false => case (m mod k = 0) 
+                             of true  => let val (d,m') = fullDivide (k,m)
+	                                 in if (m < k*k) then [(k,d)]
+					    else (k,d) :: (factorize' (k + 2) m')
+                                         end	
+                             | false => factorize' (k + 2) m  	
+	 in if (n mod 2 = 0) then let val (d,n') = fullDivide (2,n)
+	                          in (2,d) :: (factorize' 3 n')
+                                  end							   
+            else factorize' 3 n		 
+	 end 
+
+(* Problem 24.
+ * Write a function multiply that given a factorization of a number n as 
+ * described in the previous problem computes back the number n. 
+ * So this should do the opposite of factorize.
+ *)	
+ 
+fun multiply (factors : (int * int) list) : int = 
+    if null factors then 1
+    else let val h_ls = hd factors
+	 in pow (#1 h_ls, #2 h_ls) * (multiply (tl factors))
+         end
+		 
+(* Problem 25.
+ * Write a function that given a factorization list result from factorize creates 
+ * a list all of possible products produced from using some or all of those prime 
+ * factors no more than the number of times they are available. This should end up 
+ * being a list of all the divisors of the number n that gave rise to the list.
+ *)	
+
+(* helper functions *)
+fun last (xs : 'a list) : 'a =
+    if length xs = 1 then hd xs
+    else last (tl xs)
+
+fun init (xs : 'a list) : 'a list =
+    if length xs = 1 then []
+    else (hd xs)::(init (tl xs)) 
+
+fun multiples (n : int, k : int) : int list =
+    if k = 0 then [1]
+    else (multiples (n, k - 1)) @ [pow(n,k)]
+ 
+fun multiplesLst (ps : (int * int) list) : (int list) list =
+    if null ps then []
+    else (multiples (hd ps))::(multiplesLst (tl ps)) 
+ 
+fun scaleLst (xs : int list) (y : int) : int list =
+    case xs 
+    of []      => []
+    | (x::xs') => (x*y)::(scaleLst xs' y)	
+	
+fun scaleLsts (xs : int list) (ys : int list) : int list =
+    case ys 
+    of []      => []
+    | (y::ys') => (scaleLst xs y) @ (scaleLsts xs ys')	
+
+fun scaleLstLst (xss : (int list) list) : int list =
+    if null xss then []
+    else if length xss <= 2 then let val xs1   = hd xss
+                                     val t_xss = tl xss	
+	                         in if null t_xss then xs1
+				    else scaleLsts xs1 (hd t_xss)
+		                 end
+    else scaleLsts (scaleLstLst (init xss)) (last xss)
+ 
+(* main function *) 
+fun all_products (factors : (int * int) list) : int list =
+    let val factors' = multiplesLst factors
+    in qsort (scaleLstLst factors')
+    end   
+ 
+(* END *)
