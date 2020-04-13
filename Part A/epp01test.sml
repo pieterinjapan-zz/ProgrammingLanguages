@@ -1,6 +1,6 @@
 (* Author  : Pieter van Wyk
  * Created : 2020-04-11
- * Updated : 2020-04-11
+ * Updated : 2020-04-13
  *
  * Tests for the extra practice problems of week 2 of part A 
  *)
@@ -151,3 +151,32 @@ val test_not_so_quick_sort1 = isSorted (not_so_quick_sort [1,3,5,~2,~1])
 val test_not_so_quick_sort2 = isSorted (not_so_quick_sort [~2,~1,1,3,5]) 
 val test_not_so_quick_sort3 = isSorted (not_so_quick_sort [1,3,5,~2,~1]) 
 val test_not_so_quick_sort4 = isSorted (not_so_quick_sort [~5,1,3,~2,5]) 
+
+(* Problem 22. unit tests *)  
+val test_fullDivide1 = unDivide 2 (fullDivide (2,40)) = 40
+val test_fullDivide2 = unDivide 3 (fullDivide (3,10)) = 10
+val test_fullDivide3 = unDivide 5 (fullDivide (5,123)) = 123
+val test_fullDivide4 = unDivide 6 (fullDivide (6,723)) = 723
+
+
+(* Problem 23. unit tests *)  
+val test_factorize1 = factorize 20  = [(2,2),(5,1)]
+val test_factorize2 = factorize 36  = [(2,2),(3,2)] 
+val test_factorize3 = factorize 1   = []
+val test_factorize4 = factorize 120 = [(2,3),(3,1),(5,1)]
+
+
+(* Problem 24. unit tests *)
+val test_multiply1 = multiply (factorize 604) = 604
+val test_multiply2 = multiply (factorize 617) = 617
+val test_multiply3 = multiply (factorize 21)  = 21
+val test_multiply4 = multiply (factorize 704) = 704
+
+
+(* Problem 25. unit tests *)
+val test_all_products1 = all_products (factorize 20) = [1,2,4,5,10,20]
+val test_all_products2 = all_products (factorize 30) = [1,2,3,5,6,10,15,30]
+val test_all_products3 = all_products (factorize 24) = [1,2,3,6,12,24]
+val test_all_products4 = all_products (factorize 40) = [1,2,4,5,8,10,20,40]
+
+(* END *)
