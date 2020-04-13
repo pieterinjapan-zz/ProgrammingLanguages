@@ -152,6 +152,7 @@ val test_not_so_quick_sort2 = isSorted (not_so_quick_sort [~2,~1,1,3,5])
 val test_not_so_quick_sort3 = isSorted (not_so_quick_sort [1,3,5,~2,~1]) 
 val test_not_so_quick_sort4 = isSorted (not_so_quick_sort [~5,1,3,~2,5]) 
 
+
 (* Problem 22. unit tests *)  
 val test_fullDivide1 = unDivide 2 (fullDivide (2,40)) = 40
 val test_fullDivide2 = unDivide 3 (fullDivide (3,10)) = 10
