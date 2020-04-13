@@ -20,10 +20,10 @@ datatype pass_fail = pass | fail
  
 fun pass_or_fail {grade : int option, id : 'a} : pass_fail =
     case grade 
-	of NONE  => fail
-	| SOME i => case (i >= 75) 
-	            of true  => pass
-				|  false => fail
+    of NONE  => fail
+    | SOME i => case (i >= 75) 
+	        of true  => pass
+		|  false => fail
 				
 (* Problem 2. 
  * Using pass_or_fail as a helper function, write a function has_passed of type 
@@ -33,5 +33,5 @@ fun pass_or_fail {grade : int option, id : 'a} : pass_fail =
  
  fun has_passed (x_rec : {grade : int option, id : 'a}) : bool =
      case (pass_or_fail x_rec)
-	 of pass => true
-	 |  fail => false
+     of pass => true
+     |  fail => false
