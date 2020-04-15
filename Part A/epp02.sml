@@ -35,3 +35,32 @@ fun pass_or_fail (fgrd : final_grade) : pass_fail =
      case (pass_or_fail fgrd)
      of pass => true
      |  fail => false
+
+(* Problem 3. 
+ * Using has_passed as a helper function, write a function number_passed that takes 
+ * a list of type final_grade (or a more general type) and returns how many list 
+ * elements have passing (again, ≥75) grades.
+ *)
+ 
+fun number_passed (fgrd_ls : final_grade list) : int =
+    case fgrd_ls
+    of [] => 0
+    | (fgrd::fgrd_ls') => case (has_passed fgrd) 
+	                  of true => 1 + number_passed fgrd_ls' 
+	                  |  false => number_passed fgrd_ls' 
+ 
+(* Problem 4. 
+ * Write a function number_misgraded of type (pass_fail * final_grade) list -> int
+ * that indicates how many list elements are "mislabeled" where mislabeling means a 
+ * pair (pass,x) where has_passed x is false or (fail,x) where has_passed x is true.
+ *) 
+ 
+fun number_misgraded (check_ls : (pass_fail * final_grade) list) : int =
+    case check_ls
+    of [] => 0
+    | (check::check_ls') => let val grade_given = #1 check 
+	                        val grade_actual = pass_or_fail (#2 check) 
+	                    in case (grade_given = grade_actual)
+			       of true  => number_misgraded check_ls'
+			       |  false => 1 + number_misgraded check_ls'
+			    end
