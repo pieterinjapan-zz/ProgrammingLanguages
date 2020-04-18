@@ -1,6 +1,6 @@
 (* Author  : Pieter van Wyk
  * Created : 2020-04-13
- * Updated : 2020-04-13
+ * Updated : 2020-04-18
  *
  * Solutions to the extra practice problems of week 3 of part A 
  *)
@@ -18,12 +18,12 @@ datatype pass_fail = pass | fail
  * returns pass if the grade field contains SOME i for an i≥75 (else fail).
  *)
  
-fun pass_or_fail (fgrd : final_grade) : pass_fail =
-    case (#grade fgrd) 
-    of NONE  => fail
-    | SOME i => case (i >= 75) 
-	        of true  => pass
-		|  false => fail
+fun pass_or_fail {id = _, grade = grd} =
+    case grd 
+	of NONE  => fail
+	 | SOME i => case (i >= 75) 
+	             of true  => pass
+		      | false => fail
 				
 (* Problem 2. 
  * Using pass_or_fail as a helper function, write a function has_passed of type 
