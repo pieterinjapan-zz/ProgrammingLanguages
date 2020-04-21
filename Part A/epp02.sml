@@ -1,6 +1,6 @@
 (* Author  : Pieter van Wyk
  * Created : 2020-04-13
- * Updated : 2020-04-20
+ * Updated : 2020-04-21
  *
  * Solutions to the extra practice problems of week 3 of part A 
  *)
@@ -255,3 +255,66 @@ fun isEmpty set =
      | Range {from = x_i, to = x_f } => (x_i > x_f)	
      | Union (set1,set2) => (isEmpty set1) andalso (isEmpty set2)
      | Intersection (set1,set2) => (isEmpty set1) orelse (isEmpty set2)
+
+
+(* Problem 18. 
+ * Write contains: intSet * int -> bool that returns whether the set contains a certain element or not.
+ *) 
+
+(* helper : check if element is in list *)
+fun isElm y xs =
+    case xs 
+	of [] => false
+	 | (x::xs') => (x = y) orelse (isElm y xs')
+
+(* main function *)
+fun contains (set,el) =  
+    case set 
+    of Elems ls => isElm el ls 
+     | Range {from = x_i, to = x_f } => (el >= x_i) andalso (el <= x_f)	
+     | Union (set1,set2) => (contains (set1,el)) orelse (contains (set2,el))
+     | Intersection (set1,set2) => (contains (set1,el)) andalso (contains (set2,el))
+
+
+(* Problem 19. 
+ * Write toList : intSet -> int list that returns a list with the set's elements, without duplicates.
+ *)
+ 
+(* helper : remove element from list *) 
+fun removeElm _ [] = []
+  | removeElm y (x::xs) = case (x = y)
+                          of true => removeElm y xs 
+			   | false => x::(removeElm y xs )
+    
+(* helper : remove duplicates from list *)
+fun removeDup [] = []
+  | removeDup (x::xs) = let val xs' = removeElm x xs 
+                        in x::(removeDup xs')
+                        end
+ 
+(* helper : make list from range *) 
+fun rangeToList x_i x_f = 
+    case (x_i > x_f) 
+    of true => []
+     | false => x_i::(rangeToList (x_i + 1) x_f) 	
+
+(* helper : make list from intersection *) 
+fun intersectionToList xs ys = 
+    let fun aux acc xs =
+	case xs 
+        of [] => acc 
+        | (x::xs') => case (isElm x ys)
+                      of true => aux (acc@[x]) xs' 
+                      | false => aux acc xs'	   
+    in aux [] xs 
+    end 
+
+(* main function *) 
+fun toList set =  
+    case set 
+    of Elems ls => removeDup ls 
+    | Range {from = x_i, to = x_f} => rangeToList x_i x_f	
+    | Union (set1,set2) => (toList set1)@(toList set2) 
+    | Intersection (set1,set2) => intersectionToList (toList set1) (toList set2) 
+
+(* END *)
