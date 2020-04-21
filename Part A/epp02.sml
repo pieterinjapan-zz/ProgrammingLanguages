@@ -24,7 +24,8 @@ fun pass_or_fail {id = _, grade = grd} =
 	 | SOME i => case (i >= 75) 
 	             of true  => pass
 		      | false => fail
-				
+	
+	
 (* Problem 2. 
  * Using pass_or_fail as a helper function, write a function has_passed of type 
  * {grade : int option, id : 'a} -> bool that returns true if and only if the the 
@@ -35,6 +36,7 @@ fun pass_or_fail {id = _, grade = grd} =
      case (pass_or_fail fgrd)
      of pass => true
      |  fail => false
+
 
 (* Problem 3. 
  * Using has_passed as a helper function, write a function number_passed that takes 
@@ -48,6 +50,7 @@ fun number_passed (fgrd_ls : final_grade list) : int =
     | (fgrd::fgrd_ls') => case (has_passed fgrd) 
 	                  of true => 1 + number_passed fgrd_ls' 
 	                  |  false => number_passed fgrd_ls' 
+ 
  
 (* Problem 4. 
  * Write a function number_misgraded of type (pass_fail * final_grade) list -> int
@@ -218,7 +221,6 @@ fun sub (n,ZERO) = n
 (* Problem 15. 
  * Write mult : nat * nat -> nat to perform multiplication. 
 *)
-
 
 fun mult (ZERO,_) = ZERO 
   | mult (_,ZERO) = ZERO 
