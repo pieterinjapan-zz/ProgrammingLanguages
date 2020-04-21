@@ -49,6 +49,7 @@ val t2 = node {value = 7, left = leaf, right = t1}
 val t3 = node {value = 4, left = t1, right = t2}
 val t4 = node {value = 2, left = t2, right = t3}
 
+
 (* Problem 5. unit tests *)
 val test_tree_height1 = tree_height t1 = 1
 val test_tree_height2 = tree_height t2 = 2
