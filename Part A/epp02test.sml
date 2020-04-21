@@ -1,6 +1,6 @@
 (* Author  : Pieter van Wyk
  * Created : 2020-04-11
- * Updated : 2020-04-20
+ * Updated : 2020-04-21
  *
  * Tests for the extra practice problems of week 3 of part A 
  *)
@@ -175,6 +175,7 @@ val test_less_than4 = less_than (two,five) = true
 val set1 = Elems []
 val set2 = Elems [1,2]
 val set3 = Elems [3,4]
+val set4 = Elems [2,5]
 
 (* Problem 17. unit tests *)
 val test_isEmpty1 = isEmpty set1 = true
@@ -185,3 +186,51 @@ val test_isEmpty5 = isEmpty (Union (set1,set1)) = true
 val test_isEmpty6 = isEmpty (Union (set1,set2)) = false   
 val test_isEmpty7 = isEmpty (Intersection (set1,set2)) = true 
 val test_isEmpty8 = isEmpty (Intersection (set3,set2)) = false  
+
+(* Problem 18. unit tests *)
+val test_isElm1 = isElm 3 [1,2,3] = true 
+val test_isElm2 = isElm 5 [1,2,3] = false
+val test_isElm3 = isElm "a" ["a","b","c"] = true 
+val test_isElm4 = isElm "d" ["a","b","c"] = false
+
+val test_contains1 = contains (set2, 2) = true
+val test_contains2 = contains (set3, 5) = false 
+val test_contains3 = contains (Range {from = 1, to = 3},2) = true    
+val test_contains4 = contains (Range {from = 3, to = 5},1) = false  
+val test_contains5 = contains (Union (set1,set2),2) = true 
+val test_contains6 = contains (Union (set2,set3),5) = false   
+val test_contains7 = contains (Intersection (set2,set4),2) = true 
+val test_contains8 = contains (Intersection (set2,set4),5) = false 
+
+
+(* Problem 19. unit tests *)
+val test_removeElm1 = removeElm 3 [3,3,3,3] = []
+val test_removeElm2 = removeElm 2 [1,2,3,2] = [1,3]
+val test_removeElm3 = removeElm 5 [1,2,3,4] = [1,2,3,4]
+val test_removeElm4 = removeElm "b" ["a","b","c"] = ["a","c"]
+
+val test_removeDup1 = removeDup [3,3,3,3] = [3]
+val test_removeDup2 = removeDup [1,2,2,1] = [1,2]
+val test_removeDup3 = removeDup ["a","b","b","a"] = ["a","b"]
+val test_removeDup4 = removeDup [1,2,3,4] = [1,2,3,4]
+
+val test_rangeToList1 = rangeToList 1 3 = [1,2,3]
+val test_rangeToList2 = rangeToList 5 8 = [5,6,7,8]
+val test_rangeToList3 = rangeToList 5 4 = []
+val test_rangeToList4 = rangeToList 5 5 = [5]
+
+val test_intersectionToList1 = intersectionToList [] [1] = []
+val test_intersectionToList2 = intersectionToList [1] [] = []
+val test_intersectionToList3 = intersectionToList [1,2,3,3] [2,2,3,4] = [2,3,3] 
+val test_intersectionToList4 = intersectionToList [1,2,3] [4,5] = []
+
+val test_toList1 = toList set2 = [1,2]
+val test_toList2 = toList set3 = [3,4] 
+val test_toList3 = toList (Range {from = 1, to = 3}) = [1,2,3]    
+val test_toList4 = toList (Range {from = 3, to = 5}) = [3,4,5]  
+val test_toList5 = toList (Union (set1,set2)) = [1,2] 
+val test_toList6 = toList (Union (set2,set3)) = [1,2,3,4]   
+val test_toList7 = toList (Intersection (set2,set4)) = [2] 
+val test_toList8 = toList (Intersection (set2,set3)) = [] 
+
+(* END *)
