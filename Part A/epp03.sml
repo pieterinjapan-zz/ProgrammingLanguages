@@ -9,10 +9,11 @@
 * Write a function compose_opt : ('b -> 'c option) -> ('a -> 'b option) -> 'a -> 'c option
 * that composes two functions with "optional" values. If either function returns NONE, then the result is NONE.
 *)
+
 fun compose_opt f_opt g_opt =
     fn x => (case (g_opt x) 
-	         of NONE => NONE 
-			  | SOME x' => f_opt x')
+	     of NONE => NONE 
+	      | SOME x' => f_opt x')
 			                
 
 (* Problem 2.
