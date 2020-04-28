@@ -12,8 +12,8 @@
 
 fun compose_opt f_opt g_opt = fn x =>
     case (g_opt x) 
-	of NONE => NONE 
-	 | SOME x' => f_opt x'
+    of NONE => NONE 
+     | SOME x' => f_opt x'
 	
 	
 (* Problem 2.
@@ -25,8 +25,8 @@ fun compose_opt f_opt g_opt = fn x =>
 
 fun do_until f p = fn x => 
     case (p x) 
-	of true  => do_until f p (f x)
-	 | false => x  
+    of true  => do_until f p (f x)
+     | false => x  
 	
 
 (* Problem 3.
@@ -35,8 +35,8 @@ fun do_until f p = fn x =>
 
 fun fact n =
     let val (ans,_) = do_until (fn (acc,m) => (acc*m,m-1)) (fn (_,m) => m <> 1) (1,n) 
-	in ans 
-	end 
+    in ans 
+    end 
 
 fun fact' n = (* for testing *)
     if n = 1 then 1
