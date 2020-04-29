@@ -80,6 +80,29 @@ fun app_all f g x = concat (map f (g x))
 fun foldr _ v [] = v 
   | foldr f v (x::xs) = f x (foldr f v xs)  
 
+(* extra practice : use foldr to define merge sort *)
+fun merge xs [] = xs
+  | merge [] ys = ys
+  | merge (x::xs) (y::ys) =
+    case (x < y) 
+    of true  => x::(merge xs (y::ys))
+     | false => y::(merge (x::xs) ys)	
+
+fun break n xs = 
+    let fun break' x (accL,accR,m) =
+	case (m = 0) 
+	of true  => (x::accL,accR,0)
+	 | false => (accL,x::accR,m-1) 
+	val (lsL,lsR,_) = foldr break' ([],[],n) xs 
+    in (lsL,lsR)
+    end 	
+	        	
+fun merge_sort []  = []
+  | merge_sort [x] = [x]
+  | merge_sort xs = 
+    let val (lsL,lsR) = break ((length xs) div 2) xs
+    in merge (merge_sort lsL) (merge_sort lsR) 
+    end    	
 
 (* Problem 8.
  * Write a function partition : ('a -> bool) -> 'a list -> 'a list * 'a list 
@@ -90,13 +113,12 @@ fun foldr _ v [] = v
  
 fun partition p xs =
     let fun partition' x (accT,accF) =
-	        case (p x) 
-			of true  => (x::accT, accF) 
-             | false => (accT, x::accF)  						   
+	case (p x) 
+	of true  => (x::accT, accF) 
+         | false => (accT, x::accF)  						   
     in foldr partition' ([],[]) xs 
     end	
-	
-	
+		
 (* extra practice : use partition to define quick sort *)
 fun qsort []  = []
   | qsort [x] = [x] 
