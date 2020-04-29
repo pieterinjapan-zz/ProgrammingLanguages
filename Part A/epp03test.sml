@@ -87,6 +87,10 @@ val test_foldr2 = foldr (fn x => fn v => x * v) 1 [1,2,3,4] = 24
 val test_foldr3 = foldr (fn x => fn v => (String.size x) + v) 0 ["1","2","3","4"] = 4 
 val test_foldr4 = foldr (fn x => fn v => x^v) "_num" ["1","2","3","4"] = "1234_num"   
 
+val test_merge_sort1 = merge_sort [1,2,5,1,2,5,1] = [1,1,1,2,2,5,5]
+val test_merge_sort2 = merge_sort [0,3,7,5,0,8,3] = [0,0,3,3,5,7,8]
+val test_merge_sort3 = merge_sort [3,2,6,5,8,9,2] = [2,2,3,5,6,8,9]
+
 
 (* Problem 8. unit tests *)
 val test_partition1 = partition (fn x => x > 0) [3,4,~2,6,~3,5] = ([3,4,6,5],[~2,~3])
