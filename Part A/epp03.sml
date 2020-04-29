@@ -1,6 +1,6 @@
 (* Author  : Pieter van Wyk
  * Created : 2020-04-21
- * Updated : 2020-04-28
+ * Updated : 2020-04-29
  *
  * Solutions to the extra practice problems of week 4 of part A 
  *)
@@ -48,18 +48,15 @@ fun fact' n = (* for testing *)
  * and an initial value x applies f to x until f x = x. (Notice the use of '' to indicate equality types.)
  *)	
  
-fun fixed_point f x =
-    case (f x = x)
-    of true => x
-     | false => fixed_point f (f x)  	
+fun fixed_point f = do_until f (fn x => (f x <> x))   
+		 
  
 (* Problem 5.
  * Write a function map2 : ('a -> 'b) -> 'a * 'a -> 'b * 'b that given a function that takes ’a values to ’b
  * values and a pair of ’a values returns the corresponding pair of ’b values.
  *)
  
-fun map2 f [] = []
-  | map2 f ((x,y)::ls) = (f x, f y)::(map2 f ls)
+fun map2 f xs = foldl (fn ((x,y),acc) => acc@[(f x, f y)]) [] xs 
   
   
 (* Problem 6.
@@ -68,8 +65,8 @@ fun map2 f [] = []
  * into a single list. For example, for fun f n = [n, 2 * n, 3 * n], we have 
  * app_all f f 1 = [1, 2, 3, 2, 4, 6, 3, 6, 9].
  *)
-fun concat [] = []
-  | concat (xs::xss) = xs@(concat xss) 
+ 
+fun concat xss = foldl (fn (xs,vs) => vs@xs) [] xss
  
 fun app_all f g x = concat (map f (g x))
  	
@@ -79,6 +76,32 @@ fun app_all f g x = concat (map f (g x))
  * f init [x1, x2, ..., xn] returns f(x1, f(x2, ..., f(xn, init)...))
  * or init if the list is empty.
  *)
+ 
 fun foldr _ v [] = v 
   | foldr f v (x::xs) = f x (foldr f v xs)  
+
+
+(* Problem 8.
+ * Write a function partition : ('a -> bool) -> 'a list -> 'a list * 'a list 
+ * where the first part of the result contains the second argument elements for 
+ * which the first element evaluates to true and the second part of the result 
+ * contains the other second argument elements. Traverse the second argument only once.
+ *)	
+ 
+fun partition p xs =
+    let fun partition' x (accT,accF) =
+	        case (p x) 
+			of true  => (x::accT, accF) 
+             | false => (accT, x::accF)  						   
+    in foldr partition' ([],[]) xs 
+    end	
+	
+	
+(* extra practice : use partition to define quick sort *)
+fun qsort []  = []
+  | qsort [x] = [x] 
+  | qsort (x::xs) =
+    let val (small_ls,large_ls) = partition (fn el => el <= x) xs 
+    in concat [(qsort small_ls),[x],(qsort large_ls)]
+    end 	
 	
