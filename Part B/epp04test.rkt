@@ -3,7 +3,6 @@
 (require rackunit)
 (require "epp04.rkt")
 
-
 (define tests
   (test-suite
    "unit tests for extra practice problems"
@@ -14,5 +13,6 @@
    ))
 
 (require rackunit/text-ui)
+
 ;; runs the test
 (run-tests tests)
