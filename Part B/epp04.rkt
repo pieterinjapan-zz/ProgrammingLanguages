@@ -42,5 +42,19 @@
 (define (fact n)
   (cond [(zero? n) 1]
         [#t (* n (fact (- n 1)))]))
+        
+        
+; --- problem 2 (b) ---
+; Define a stream fibonacci, the first element of which is 0, the second one is 1, and each
+; successive element is the sum of two immediately preceding elements.
+
+(define fibonacchi
+  (letrec ([aux (λ(x y) (λ()(cons x (aux y (+ x y)))))])
+      (aux 0 1)))
+
+; helper functions for testing fibonacchi
+(define (fibo n)
+  (cond [(< n 2) n]
+        [#t  (+ (fibo (- n 1)) (fibo (- n 2)))]))        
 
 ; END
