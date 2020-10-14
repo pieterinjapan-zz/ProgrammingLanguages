@@ -1,3 +1,10 @@
+; Author  : Pieter van Wyk
+; Created : 2020-10-10
+; Updated : 2020-10-15
+;
+; Solutions to the extra practice problems of week 1 of part B 
+;
+
 #lang racket
 (provide (all-defined-out))
 
@@ -35,3 +42,5 @@
 (define (fact n)
   (cond [(zero? n) 1]
         [#t (* n (fact (- n 1)))]))
+
+; END
