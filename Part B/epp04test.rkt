@@ -1,3 +1,10 @@
+; Author  : Pieter van Wyk
+; Created : 2020-10-03
+; Updated : 2020-10-15
+;
+; Unit tests for the extra practice problems of week 1 of part B 
+;
+
 #lang racket
 (provide (all-defined-out))
 (require rackunit)
@@ -41,3 +48,5 @@
 
 ;; runs the test
 (run-tests tests)
+
+; END
