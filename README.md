@@ -3,6 +3,6 @@ My solutions to the extra practice problems for the “Programming Languages” 
 
 Part A: https://www.coursera.org/learn/programming-languages 
 
-Part B: https://www.coursera.org/learn/programming-languages-part-b (coming soon)
+Part B: https://www.coursera.org/learn/programming-languages-part-b 
 
 Part C: https://www.coursera.org/learn/programming-languages-part-c (coming soon)
