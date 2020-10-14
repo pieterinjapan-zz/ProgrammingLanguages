@@ -43,6 +43,10 @@
    (check-equal? (stream-to-list facts 20) (map fact (stream-to-list nats 20)) "facts test 4")
 
    ; unit tests for problem 2 (b)
+   (check-equal? (stream-to-list fibonacchi 5)  '(0 1 1 2 3)                        "facts test 1")
+   (check-equal? (stream-to-list fibonacchi 10) (map fibo '(0 1 2 3 4 5 6 7 8 9))   "facts test 2")
+   (check-equal? (stream-to-list fibonacchi 15) (map fibo (stream-to-list nats 15)) "facts test 3")
+   (check-equal? (stream-to-list fibonacchi 20) (map fibo (stream-to-list nats 20)) "facts test 4")
       
    ))
 
