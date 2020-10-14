@@ -11,10 +11,27 @@
 
 ; helper (add two lists element wise)
 (define (add-lists xs ys)
-  (if (or (null? xs) (null? ys))
-      null
-      (cons (+ (car xs) (car ys))(add-lists (cdr xs) (cdr ys)))))
+  (cond [(or (null? xs) (null? ys)) null]
+        [#t (cons (+ (car xs) (car ys)) (add-lists (cdr xs) (cdr ys)))]))
 
 ; main
 (define (palindromic xs)
   (add-lists xs (reverse xs)))
+
+
+; --- problem 2 (a) ---
+; Define a stream facts, the stream of factorials of the natural
+; numbers starting at 0.
+
+(define facts
+  (letrec ([aux (λ(x y) (λ()(cons x (aux (* x y) (+ y 1)))))])
+      (aux 1 1)))
+
+; helper functions for testing facts
+(define nats
+  (letrec ([aux (λ(x) (λ()(cons x (aux (+ x 1)))))])
+    (aux 0)))
+
+(define (fact n)
+  (cond [(zero? n) 1]
+        [#t (* n (fact (- n 1)))]))
