@@ -3,7 +3,6 @@
 ; Updated : 2020-10-15
 ;
 ; Unit tests for the extra practice problems of week 1 of part B 
-;
 
 #lang racket
 (provide (all-defined-out))
@@ -47,6 +46,12 @@
    (check-equal? (stream-to-list fibonacchi 10) (map fibo '(0 1 2 3 4 5 6 7 8 9))   "facts test 2")
    (check-equal? (stream-to-list fibonacchi 15) (map fibo (stream-to-list nats 15)) "facts test 3")
    (check-equal? (stream-to-list fibonacchi 20) (map fibo (stream-to-list nats 20)) "facts test 4")
+   
+   ; unit tests for problem 3
+   (check-equal? (stream-until (f-cond fact 10) nats) (map fact (stream-to-list nats 10)) "stream-until test 1")
+   (check-equal? (stream-until (f-cond fact 20) nats) (map fact (stream-to-list nats 20)) "stream-until test 2")
+   (check-equal? (stream-until (f-cond fibo 10) nats) (map fibo (stream-to-list nats 10)) "stream-until test 3")
+   (check-equal? (stream-until (f-cond fibo 20) nats) (map fibo (stream-to-list nats 20)) "stream-until test 4")
       
    ))
 
