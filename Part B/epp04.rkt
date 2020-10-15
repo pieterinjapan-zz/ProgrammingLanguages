@@ -57,4 +57,21 @@
   (cond [(< n 2) n]
         [#t  (+ (fibo (- n 1)) (fibo (- n 2)))]))        
 
+
+; --- problem 3 ---
+; Write a function stream-until that takes a function f and a stream s, and applies f to the
+; values of s in succession until f evaluates to #f. The values after applying f are returned
+; as a list.
+
+(define (stream-until f s)
+  (cond [(false? (f (car (s)))) null]
+        [#t (cons (f (car (s))) (stream-until f (cdr (s))))]))
+
+; helper for testing (takes integer input function f and integer n-max
+; and returns a function that evaluates to #f if the input is above
+; n-max, otherwise applying f)
+(define (f-cond f n-max)
+  (λ(n) (cond [(>= n n-max) #f]
+              [#t (f n)])))
+              
 ; END
