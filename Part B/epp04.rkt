@@ -1,6 +1,6 @@
 ; Author  : Pieter van Wyk
 ; Created : 2020-10-03
-; Updated : 2020-10-
+; Updated : 2020-10-20
 ;
 ; Solutions to the extra practice problems of week 1 of part B 
 ;
