@@ -1,19 +1,14 @@
 ; Author  : Pieter van Wyk
 ; Created : 2020-10-03
-; Updated : 2020-10-15
+; Updated : 2020-10-20
 ;
 ; Unit tests for the extra practice problems of week 1 of part B 
-
 #lang racket
 (provide (all-defined-out))
 (require rackunit)
 (require rackunit/text-ui)
 (require "epp04.rkt")
 
-; helper function for testing streams (returns the first n elements of a stream)
-(define (stream-to-list stream n)
-  (cond [(= n 0) null]
-        [#t (cons (car (stream)) (stream-to-list (cdr (stream)) (- n 1)))]))
 
 (define tests
   (test-suite
@@ -52,6 +47,18 @@
    (check-equal? (stream-until (f-cond fact 20) nats) (map fact (stream-to-list nats 20)) "stream-until test 2")
    (check-equal? (stream-until (f-cond fibo 10) nats) (map fibo (stream-to-list nats 10)) "stream-until test 3")
    (check-equal? (stream-until (f-cond fibo 20) nats) (map fibo (stream-to-list nats 20)) "stream-until test 4")
+   
+   ; unit tests for problem 4
+   (check-equal? (stream-to-list (stream-map fact nats) 10) (map fact (stream-to-list nats 10)) "stream-map test 1")
+   (check-equal? (stream-to-list (stream-map fact nats) 20) (map fact (stream-to-list nats 20)) "stream-map test 2")
+   (check-equal? (stream-to-list (stream-map fibo nats) 10) (map fibo (stream-to-list nats 10)) "stream-map test 3")
+   (check-equal? (stream-to-list (stream-map fibo nats) 20) (map fibo (stream-to-list nats 20)) "stream-map test 4")
+
+   ; unit tests for problem 5
+   (check-equal? (stream-to-list (stream-zip nats facts) 20) (zip (stream-to-list nats 20) (stream-to-list (stream-map fact nats) 20))      "stream-zip test 1")
+   (check-equal? (stream-to-list (stream-zip facts nats) 20) (zip (stream-to-list (stream-map fact nats) 20) (stream-to-list nats 20))      "stream-zip test 2")
+   (check-equal? (stream-to-list (stream-zip nats fibonacchi) 20) (zip (stream-to-list nats 20) (stream-to-list (stream-map fibo nats) 20)) "stream-zip test 3")
+   (check-equal? (stream-to-list (stream-zip fibonacchi nats) 20) (zip (stream-to-list (stream-map fibo nats) 20) (stream-to-list nats 20)) "stream-zip test 4")
       
    ))
 
